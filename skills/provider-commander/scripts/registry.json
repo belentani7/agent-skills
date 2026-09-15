@@ -1,0 +1,28 @@
+{
+  "chain": ["nvidia", "deepseek", "openrouter", "morph", "zai", "anthropic", "groq"],
+  "providers": {
+    "nvidia":     { "base": "https://integrate.api.nvidia.com/v1", "api": "openai", "env": ["NVIDIA_API_KEY", "NVIDIA_ALT_KEY"], "rpm": 40, "tier": "free-eval", "cost": { "in": 0, "out": 0 } },
+    "deepseek":   { "base": "https://api.deepseek.com/v1", "api": "openai", "env": ["DEEPSEEK_API_KEY", "DEEPSEEK_API_KEY_2"], "rpm": 60, "rph": 25, "tier": "cheap", "cost": { "in": 0.44, "out": 1.32 } },
+    "openrouter": { "base": "https://openrouter.ai/api/v1", "api": "openai", "env": ["OPENROUTER_API_KEY", "OPENROUTER_KEY_2", "OPENROUTER_KEY_3", "OPENROUTER_KEY_4"], "rpm": 20, "tier": "free+paid", "cost": { "in": 0, "out": 0 } },
+    "morph":      { "base": "https://api.morphllm.com/v1", "api": "openai", "env": ["MORPH_API_KEY"], "rpm": 60, "tier": "cheap", "cost": { "in": 0.22, "out": 1.32 } },
+    "zai":        { "base": "https://api.z.ai/api/coding/paas/v4", "api": "openai", "env": ["Z_AI_API_KEY", "Z_AI_API_KEY_2"], "rpm": 20, "tier": "free+paid", "cost": { "in": 0, "out": 0 }, "free_models": ["glm-4.5-flash"] },
+    "anthropic":  { "base": "https://api.anthropic.com/v1", "api": "anthropic", "env": ["ANTHROPIC_API_KEY"], "rpm": 50, "tier": "paid", "cost": { "in": 3.0, "out": 15.0 } },
+    "groq":       { "base": "https://api.groq.com/openai/v1", "api": "openai", "env": ["GROQ_API_KEY"], "rpm": 30, "rpd": 1000, "tier": "free", "cost": { "in": 0, "out": 0 }, "note": "el usuario reporta que no le funciona; ultimo en la cadena" },
+    "huggingface":{ "base": "https://router.huggingface.co/v1", "api": "openai", "env": ["HF_TOKEN"], "rpm": 20, "tier": "free", "cost": { "in": 0, "out": 0 } },
+
+    "opencode":   { "base": "https://opencode.ai/zen/v1", "api": "openai", "env": ["OPENCODE_ZEN_KEY"], "disabled": true, "reason": "free tier solo dentro de OpenCode; de pago sin metodo" },
+    "cerebras":   { "base": "https://api.cerebras.ai/v1", "api": "openai", "env": ["CEREBRAS_API_KEY"], "disabled": true, "reason": "402 Payment Required" },
+    "google":     { "base": "https://generativelanguage.googleapis.com/v1beta/openai", "api": "openai", "env": ["GOOGLE_API_KEY"], "disabled": true, "reason": "API key invalida" },
+    "openai":     { "base": "https://api.openai.com/v1", "api": "openai", "env": ["OPENAI_API_KEY"], "disabled": true, "reason": "401 key invalida" },
+    "openzen":    { "base": "https://api.openzen.ai/v1", "api": "openai", "env": ["OPENZEN_API_KEY"], "disabled": true, "reason": "DNS inexistente" }
+  },
+  "routing": {
+    "trivial":  [["nvidia", "nvidia/nemotron-3.5-lightning-30b-a3b"], ["zai", "glm-4.5-flash"], ["openrouter", "openrouter/auto"], ["groq", "openai/gpt-oss-20b"]],
+    "code":     [["nvidia", "nvidia/nemotron-3-super-120b-a12b"], ["morph", "morph-dsv41flash"], ["openrouter", "openrouter/auto"], ["groq", "openai/gpt-oss-120b"]],
+    "classify": [["nvidia", "nvidia/nemotron-3-super-120b-a12b"], ["openrouter", "openrouter/auto"], ["zai", "glm-4.5-flash"]],
+    "synth":    [["deepseek", "deepseek-chat"], ["nvidia", "nvidia/nemotron-3-super-120b-a12b"], ["openrouter", "openrouter/auto"]],
+    "edit":     [["morph", "morph-dsv41flash"], ["deepseek", "deepseek-chat"], ["nvidia", "nvidia/nemotron-3-super-120b-a12b"]],
+    "reason":   [["deepseek", "deepseek-v4-pro"], ["nvidia", "nvidia/nemotron-3-ultra-550b-a55b"], ["morph", "morph-glm52-744b"]],
+    "judge":    [["deepseek", "deepseek-v4-pro"], ["anthropic", "claude-sonnet-4-5"], ["morph", "morph-glm52-744b"]]
+  }
+}

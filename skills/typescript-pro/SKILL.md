@@ -1,0 +1,104 @@
+---
+name: typescript-pro
+description: Implements advanced TypeScript type systems, creates custom type guards, utility types, and branded types, and configures tRPC for end-to-end type safety.
+license: MIT
+compatibility: opencode
+metadata:
+  author: open-source
+  version: "1.1.0"
+  domain: language
+  triggers: TypeScript, generics, type safety, conditional types, mapped types, tRPC, tsconfig, type guards, discriminated unions
+  role: specialist
+  scope: implementation
+  output-format: code
+  related-skills: angular-architect, nextjs-developer, vue-expert
+---
+
+# TypeScript Pro
+
+## Core Workflow
+
+1. **Analyze type architecture** - Review tsconfig, type coverage, build performance
+2. **Design type-first APIs** - Create branded types, generics, utility types
+3. **Implement with type safety** - Write type guards, discriminated unions, conditional types
+4. **Optimize build** - Configure project references, incremental compilation
+5. **Test types** - Confirm type coverage, validate all public APIs have explicit return types
+
+## Key Patterns
+
+### Branded Types
+```typescript
+type Brand<T, B extends string> = T & { readonly __brand: B };
+type UserId  = Brand<string, "UserId">;
+type OrderId = Brand<number, "OrderId">;
+
+const toUserId  = (id: string): UserId  => id as UserId;
+const toOrderId = (id: number): OrderId => id as OrderId;
+
+function getOrder(userId: UserId, orderId: OrderId) { /* ... */ }
+```
+
+### Discriminated Unions & Type Guards
+```typescript
+type LoadingState = { status: "loading" };
+type SuccessState = { status: "success"; data: string[] };
+type ErrorState   = { status: "error";   error: Error };
+type RequestState = LoadingState | SuccessState | ErrorState;
+
+function isSuccess(state: RequestState): state is SuccessState {
+  return state.status === "success";
+}
+
+function renderState(state: RequestState): string {
+  switch (state.status) {
+    case "loading": return "Loading...";
+    case "success": return state.data.join(", ");
+    case "error":   return state.error.message;
+    default: {
+      const _exhaustive: never = state;
+      throw new Error(`Unhandled state: ${_exhaustive}`);
+    }
+  }
+}
+```
+
+### Recommended tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
+    "skipLibCheck": false
+  }
+}
+```
+
+## Constraints
+
+### MUST DO
+- Enable strict mode with all compiler flags
+- Use type-first API design
+- Implement branded types for domain modeling
+- Use `satisfies` operator for type validation
+- Create discriminated unions for state machines
+- Generate declaration files for libraries
+
+### MUST NOT DO
+- Use explicit `any` without justification
+- Skip type coverage for public APIs
+- Disable strict null checks
+- Use `as` assertions without necessity
+- Use enums (prefer const objects with `as const`)
+
+## Knowledge Reference
+
+TypeScript 5.0+, generics, conditional types, mapped types, template literal types, discriminated unions, type guards, branded types, tRPC, project references

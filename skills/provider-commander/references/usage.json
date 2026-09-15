@@ -1,0 +1,10 @@
+{
+  "deepseek:DEEPSEEK_API_KEY": {
+    "calls": 1,
+    "ok": 1,
+    "fail": 0,
+    "in_tok": 925,
+    "out_tok": 2495,
+    "cost_usd": 0.0037003999999999995
+  }
+}

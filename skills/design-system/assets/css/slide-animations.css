@@ -1,0 +1,72 @@
+/* Slide Animations — design-system
+   Apply one animation class per slide element. Respects prefers-reduced-motion.
+   Usage: <section class="slide anim-fade-up"> ... </section>
+*/
+
+:root {
+  --anim-duration: 500ms;
+  --anim-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --anim-distance: 24px;
+}
+
+[class*="anim-"] {
+  animation-duration: var(--anim-duration);
+  animation-timing-function: var(--anim-ease);
+  animation-fill-mode: both;
+}
+
+/* Entrance */
+.anim-fade { animation-name: fadeIn; }
+.anim-fade-up { animation-name: fadeUp; }
+.anim-fade-down { animation-name: fadeDown; }
+.anim-fade-left { animation-name: fadeLeft; }
+.anim-fade-right { animation-name: fadeRight; }
+.anim-zoom-in { animation-name: zoomIn; }
+.anim-zoom-out { animation-name: zoomOut; }
+.anim-slide-up { animation-name: slideUp; }
+.anim-blur-in { animation-name: blurIn; }
+
+/* Emphasis */
+.anim-pulse { animation-name: pulse; animation-duration: 1.2s; animation-iteration-count: 1; }
+.anim-shake { animation-name: shake; animation-duration: 600ms; }
+
+/* Stagger helpers: add to children with a delay per index */
+.stagger > * { animation-fill-mode: both; }
+.stagger > *:nth-child(1) { animation-delay: 60ms; }
+.stagger > *:nth-child(2) { animation-delay: 120ms; }
+.stagger > *:nth-child(3) { animation-delay: 180ms; }
+.stagger > *:nth-child(4) { animation-delay: 240ms; }
+.stagger > *:nth-child(5) { animation-delay: 300ms; }
+.stagger > *:nth-child(6) { animation-delay: 360ms; }
+.stagger > *:nth-child(7) { animation-delay: 420ms; }
+.stagger > *:nth-child(8) { animation-delay: 480ms; }
+
+/* Duarte sparkline: alternate "What Is" (frustration) <-> "What Could Be" (hope) */
+.slide.what-is { --anim-ease: cubic-bezier(0.4, 0, 1, 1); }
+.slide.what-could-be { --anim-ease: cubic-bezier(0, 0, 0.2, 1); }
+.pattern-break { animation-name: zoomIn; animation-duration: 700ms; }
+
+/* Keyframes */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(var(--anim-distance)); } to { opacity: 1; transform: none; } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(calc(-1 * var(--anim-distance))); } to { opacity: 1; transform: none; } }
+@keyframes fadeLeft { from { opacity: 0; transform: translateX(var(--anim-distance)); } to { opacity: 1; transform: none; } }
+@keyframes fadeRight { from { opacity: 0; transform: translateX(calc(-1 * var(--anim-distance))); } to { opacity: 1; transform: none; } }
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes zoomOut { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes blurIn { from { opacity: 0; filter: blur(8px); } to { opacity: 1; filter: none; } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* Chart draw-in (Chart.js canvases) */
+.anim-chart { animation: fadeUp var(--anim-duration) var(--anim-ease) both; }
+
+/* Accessibility: disable motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  [class*="anim-"],
+  .stagger > * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

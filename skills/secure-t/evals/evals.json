@@ -1,0 +1,23 @@
+{
+  "skill_name": "secure-t",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audita este proyecto Python pequeño (un backend Flask con login y un par de endpoints) y dame un informe de debilidades con severidad y archivo:línea. Solo auditoría, sin desplegar.",
+      "expected_output": "Tabla de hallazgos con niveles CRITICO/ALTO/MEDIO/BAJO, cada uno con file:line y fix de una línea. Sin prosa larga.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Este repo ya está corregido. Súbelo a mi GitHub con ramas main+develop, protección de main, Pages activado y workflows de CI. No tiene frontend que desplegar.",
+      "expected_output": "Repo creado, ramas pusheadas, protección/Dependabot/Pages verificados vía API, URLs reportadas.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Repáralo y déjalo impecable: audita este proyecto con frontend React + backend, corrige lo crítico, súbelo a GitHub configurado, despliega la web en Vercel y Cloudflare, y pon todos los links en el README.",
+      "expected_output": "Informe + fixes verificados (build verde, gitleaks limpio) + 3 URLs vivas (Pages/Vercel/Cloudflare) + README con links.",
+      "files": []
+    }
+  ]
+}

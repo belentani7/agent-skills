@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Web Algorithm — Template</title>
+<style>
+  :root { --neon-red: #ff003c; --neon-cyan: #00fff7; --neon-gold: #ffd700; --bg: #0a0a0f; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); overflow: hidden; font-family: system-ui, sans-serif; color: #e0e0e0; }
+  canvas { display: block; }
+  #loader { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+  #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+  #loader-bar { width: 300px; height: 4px; background: rgba(255,0,60,0.2); border-radius: 2px; overflow: hidden; }
+  #loader-fill { height: 100%; background: linear-gradient(90deg, var(--neon-red), var(--neon-gold)); width: 0%; transition: width 0.3s ease; }
+  #error-fallback { display: none; position: fixed; inset: 0; z-index: 9998; background: var(--bg); color: var(--neon-red); justify-content: center; align-items: center; flex-direction: column; gap: 16px; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="loader"><div id="loader-bar"><div id="loader-fill"></div></div><p>Loading experience...</p></div>
+<div id="error-fallback"><h2>Something went wrong</h2><p>Click to retry</p></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+// BOOT STATE MACHINE
+const STATES = ['BOOT', 'INITIALIZING', 'LOADING_ASSETS', 'INITIALIZING_RENDERER', 'READY', 'ENTERING', 'ACTIVE', 'RECOVERABLE_ERROR', 'FALLBACK'];
+const ALLOWED = {
+  BOOT: ['INITIALIZING'], INITIALIZING: ['LOADING_ASSETS', 'RECOVERABLE_ERROR'],
+  LOADING_ASSETS: ['INITIALIZING_RENDERER', 'RECOVERABLE_ERROR'],
+  INITIALIZING_RENDERER: ['READY', 'RECOVERABLE_ERROR'],
+  READY: ['ENTERING'], ENTERING: ['ACTIVE', 'FALLBACK'],
+  ACTIVE: ['RECOVERABLE_ERROR'], RECOVERABLE_ERROR: ['FALLBACK'],
+  FALLBACK: ['ACTIVE']
+};
+let state = 'BOOT';
+async function transition(to) {
+  if (!ALLOWED[state]?.includes(to)) throw new Error(`Invalid: ${state} → ${to}`);
+  state = to;
+  const progressEl = document.getElementById('loader-fill');
+  const progress = { BOOT: 0, INITIALIZING: 10, LOADING_ASSETS: 30, INITIALIZING_RENDERER: 60, READY: 80, ENTERING: 90, ACTIVE: 100 }[to] || 0;
+  if (progressEl) progressEl.style.width = progress + '%';
+  if (state === 'ACTIVE') {
+    setTimeout(() => { const l = document.getElementById('loader'); if (l) l.classList.add('hidden'); }, 500);
+  }
+}
+
+// MAIN
+async function main() {
+  try {
+    await transition('INITIALIZING');
+    
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0a0f, 0.015);
+    
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(8, 6, 10);
+    
+    await transition('LOADING_ASSETS');
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    renderer.shadowMap.enabled = true;
+    document.body.prepend(renderer.domElement);
+    
+    await transition('INITIALIZING_RENDERER');
+    
+    // Lights
+    scene.add(new THREE.AmbientLight(0x222244, 0.5));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(10, 15, 8);
+    scene.add(dirLight);
+    const pointLight = new THREE.PointLight(0xff003c, 2, 30);
+    pointLight.position.set(-3, 4, 3);
+    scene.add(pointLight);
+    
+    // Hero geometry - liquid glass icosahedron
+    const coreGeo = new THREE.IcosahedronGeometry(1.5, 2);
+    const coreMat = new THREE.MeshPhysicalMaterial({
+      color: 0xff003c, metalness: 0.1, roughness: 0.05,
+      transmission: 0.85, thickness: 0.5, ior: 1.5,
+      clearcoat: 1.0, clearcoatRoughness: 0.1,
+      emissive: 0xff003c, emissiveIntensity: 0.3
+    });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    scene.add(core);
+    
+    // OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    
+    // Post-processing
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight), 0.8, 0.4, 0.85
+    );
+    composer.addPass(bloomPass);
+    
+    // Particles
+    const count = 3000;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 20 + Math.random() * 60;
+      positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i*3+2] = r * Math.cos(phi);
+    }
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, sizeAttenuation: true });
+    scene.add(new THREE.Points(starGeo, starMat));
+    
+    await transition('READY');
+    await transition('ENTERING');
+    await transition('ACTIVE');
+    
+    // Animation
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      const delta = clock.getDelta();
+      core.rotation.y += delta * 0.3;
+      core.rotation.x += delta * 0.1;
+      const pulse = 1 + Math.sin(t * 2) * 0.1;
+      core.scale.setScalar(pulse);
+      controls.update();
+      composer.render();
+    }
+    animate();
+    
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    });
+    
+    // Error boundary
+    renderer.domElement.addEventListener('webglcontextlost', (e) => { e.preventDefault(); transition('RECOVERABLE_ERROR'); });
+    renderer.domElement.addEventListener('webglcontextrestored', () => { transition('ACTIVE'); });
+    
+    document.getElementById('error-fallback').addEventListener('click', () => { transition('ACTIVE'); main(); });
+    
+    transition('ACTIVE');
+  } catch (err) {
+    console.error(err);
+    transition('FALLBACK');
+  }
+}
+main();
+</script>
+</body>
+</html>
