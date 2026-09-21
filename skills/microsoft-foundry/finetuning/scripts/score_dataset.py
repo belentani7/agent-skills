@@ -34,9 +34,9 @@ except (AttributeError, OSError):
     pass  # Stream not reconfigurable (older Python or non-tty); default encoding is fine
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import HelpOnErrorParser, get_clients, _clamp_score
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import HelpOnErrorParser, _clamp_score, get_clients
 
 QUALITY_PROMPT = """You are a data quality assessor for machine learning training data.
 
@@ -174,7 +174,7 @@ def main():
             all_avgs.append(avg)
 
     if all_avgs:
-        print(f"\nQuality Distribution:")
+        print("\nQuality Distribution:")
         print(f"  Mean:   {sum(all_avgs)/len(all_avgs):.1f}")
         print(f"  Min:    {min(all_avgs):.1f}")
         print(f"  Max:    {max(all_avgs):.1f}")

@@ -3,17 +3,15 @@ Base validator with common validation logic for document files.
 """
 
 import re
+from functools import cache
 from pathlib import Path
 
 import defusedxml.minidom
-from functools import lru_cache
-
 import lxml.etree
-
 from helpers import safe_extract
 
 
-@lru_cache(maxsize=None)
+@cache
 def _load_schema(schema_path: str):
     with open(schema_path, "rb") as xsd_file:
         xsd_doc = lxml.etree.parse(
@@ -173,7 +171,7 @@ class BaseSchemaValidator:
             except Exception as e:
                 errors.append(
                     f"  {xml_file.relative_to(self.unpacked_dir)}: "
-                    f"Unexpected error: {str(e)}"
+                    f"Unexpected error: {e!s}"
                 )
 
         if errors:
@@ -499,9 +497,7 @@ class BaseSchemaValidator:
 
         if elem_lower.endswith("id") and len(elem_lower) > 2:
             prefix = elem_lower[:-2]  
-            if prefix.endswith("master"):
-                return prefix.lower()
-            elif prefix.endswith("layout"):
+            if prefix.endswith("master") or prefix.endswith("layout"):
                 return prefix.lower()
             else:
                 if prefix == "sld":

@@ -46,9 +46,9 @@ except (AttributeError, OSError):
     pass  # Stream not reconfigurable (older Python or non-tty); default encoding is fine
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import HelpOnErrorParser, get_clients, _clamp_score
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import HelpOnErrorParser, _clamp_score, get_clients
 
 JUDGE_PROMPT = """You are evaluating the quality of a model's output for a given task.
 

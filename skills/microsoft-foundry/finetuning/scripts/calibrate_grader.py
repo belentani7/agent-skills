@@ -53,7 +53,7 @@ def load_grader(grader_path):
     namespace = {}
     exec(compile(source, grader_path, "exec"), namespace)
     if "grade" not in namespace:
-        print(f"❌ Grader file must define a grade(sample, item) function")
+        print("❌ Grader file must define a grade(sample, item) function")
         sys.exit(1)
     return namespace["grade"]
 
@@ -169,11 +169,11 @@ def calibrate(client, model, data, grade_fn, tools_schema=None, n=30):
         print(f"\n  ✅ Recommended pass_threshold: {best_threshold}")
         print(f"     (~{sum(1 for s in scores if s < best_threshold)/len(scores):.0%} failure rate)")
     else:
-        print(f"\n  ⚠️ No threshold in the ideal 25-50% failure range.")
-        print(f"     Consider adjusting your grader scoring dimensions.")
+        print("\n  ⚠️ No threshold in the ideal 25-50% failure range.")
+        print("     Consider adjusting your grader scoring dimensions.")
 
     # Score distribution
-    print(f"\n  Score distribution:")
+    print("\n  Score distribution:")
     buckets = {"0.0-0.2": 0, "0.2-0.4": 0, "0.4-0.6": 0, "0.6-0.8": 0, "0.8-0.9": 0, "0.9-1.0": 0}
     for s in scores:
         if s < 0.2: buckets["0.0-0.2"] += 1

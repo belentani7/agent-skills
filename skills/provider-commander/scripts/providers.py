@@ -1,6 +1,10 @@
 """Providers OpenAI-compatible verificados. Resuelve keys desde env en runtime (no guarda secretos).
 Rotacion automatica cuando hay varias keys del mismo proveedor."""
-import os, json, itertools, urllib.request, urllib.error
+import itertools
+import json
+import os
+import urllib.error
+import urllib.request
 
 # provider -> {base, env vars (orden = rotacion), tipo api, notas}
 PROVIDERS = {

@@ -21,7 +21,6 @@ from pathlib import Path
 
 import defusedxml.ElementTree as ET
 from defusedxml.common import DefusedXmlException
-
 from helpers import OOXML_FAMILY, rezip, safe_extract
 from validators import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
 

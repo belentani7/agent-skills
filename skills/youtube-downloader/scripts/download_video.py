@@ -5,9 +5,9 @@ Downloads videos from YouTube with customizable quality and format options.
 """
 
 import argparse
-import sys
-import subprocess
 import json
+import subprocess
+import sys
 
 
 def check_yt_dlp():
@@ -90,7 +90,7 @@ def download_video(url, output_path="/mnt/user-data/outputs", quality="best", fo
         
         # Download the video
         subprocess.run(cmd, check=True)
-        print(f"\n✅ Download complete!")
+        print("\n✅ Download complete!")
         return True
     except subprocess.CalledProcessError as e:
         print(f"\n❌ Error downloading video: {e}")

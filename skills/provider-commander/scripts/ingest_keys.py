@@ -4,7 +4,13 @@ Valida cada llave (GET /models), deduplica y las guarda en
 ~/.config/opencode/commander/secrets.local.json (local, no en repo).
 Nunca imprime el valor completo.
 """
-import hashlib, json, os, re, sys, urllib.request, urllib.error
+import hashlib
+import json
+import os
+import re
+import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 SRC = Path(r"C:\Users\USER\Desktop\groq_keys.txt")

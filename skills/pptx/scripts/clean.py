@@ -21,7 +21,6 @@ import sys
 from pathlib import Path
 
 import defusedxml.minidom
-
 from office.helpers import SLIDE_REL_TYPE, opc_target, rels_source_part
 
 

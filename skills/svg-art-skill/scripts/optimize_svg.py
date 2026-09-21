@@ -18,7 +18,6 @@ Examples:
 import argparse
 import re
 import sys
-from typing import Tuple
 
 
 def remove_comments(svg: str) -> str:
@@ -213,7 +212,7 @@ def optimize_svg(
     return svg
 
 
-def get_size_stats(original: str, optimized: str) -> Tuple[int, int, float]:
+def get_size_stats(original: str, optimized: str) -> tuple[int, int, float]:
     """Calculate size statistics."""
     orig_size = len(original.encode('utf-8'))
     opt_size = len(optimized.encode('utf-8'))
@@ -274,7 +273,7 @@ def main():
     # Stats
     if args.stats:
         orig_size, opt_size, reduction = get_size_stats(svg, optimized)
-        print(f"\nOptimization Statistics:", file=sys.stderr)
+        print("\nOptimization Statistics:", file=sys.stderr)
         print(f"  Original:  {format_size(orig_size)}", file=sys.stderr)
         print(f"  Optimized: {format_size(opt_size)}", file=sys.stderr)
         print(f"  Reduction: {reduction:.1f}%", file=sys.stderr)

@@ -21,3 +21,15 @@ npm-debug.log*
 *.tmp
 *.bak
 *.old
+*.log
+
+# Secretos y credenciales (nunca commitear)
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+*secret*
+deploy-secrets.env
+.azure/
+*.tfvars

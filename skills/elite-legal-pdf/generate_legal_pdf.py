@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Elite Legal PDF Generator v1.0
 Firma de derechos humanos de élite — estilo Olivia Pope / Human Rights Division
@@ -24,24 +23,31 @@ import argparse
 import os
 import re
 import sys
-import math
 from datetime import datetime
 from pathlib import Path
 
 try:
-    from reportlab.lib.pagesizes import A4
-    from reportlab.lib.units import cm, mm
-    from reportlab.lib.styles import ParagraphStyle
-    from reportlab.lib.colors import HexColor, white, black
+    from reportlab.lib.colors import HexColor, black, white
     from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
-    from reportlab.platypus import (
-        Paragraph, Spacer, PageBreak, Table, TableStyle,
-        HRFlowable, Frame, PageTemplate, BaseDocTemplate,
-        NextPageTemplate, KeepTogether
-    )
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.units import cm, mm
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.pdfgen import canvas as canvasmod
+    from reportlab.platypus import (
+        BaseDocTemplate,
+        Frame,
+        HRFlowable,
+        KeepTogether,
+        NextPageTemplate,
+        PageBreak,
+        PageTemplate,
+        Paragraph,
+        Spacer,
+        Table,
+        TableStyle,
+    )
 except ImportError:
     print("ERROR: reportlab not installed. Run: pip install reportlab")
     sys.exit(1)
@@ -877,8 +883,7 @@ def build_pdf(args):
     wm_fn = None
     if args.watermark:
         wm_text = args.watermark
-        if wm_text.startswith('CUSTOM:'):
-            wm_text = wm_text[7:]
+        wm_text = wm_text.removeprefix('CUSTOM:')
         wm_fn = make_watermark_func(wm_text, theme['accent'])
     
     # Header/footer function

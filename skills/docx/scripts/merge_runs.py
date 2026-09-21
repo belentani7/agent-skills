@@ -31,7 +31,6 @@ import zipfile
 from pathlib import Path
 
 import defusedxml.minidom
-
 from office.helpers import XML_SPACE, rendered_text, rezip, safe_extract
 
 WORDML_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"

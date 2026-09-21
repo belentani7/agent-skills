@@ -28,10 +28,10 @@ import argparse
 import re
 import shutil
 import sys
-from typing import NoReturn
 import tempfile
 import zipfile
 from pathlib import Path
+from typing import NoReturn
 
 from office.helpers import rezip, safe_extract
 

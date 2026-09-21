@@ -42,10 +42,10 @@ try:
 except (AttributeError, OSError):
     pass  # Stream not reconfigurable (older Python or non-tty); default encoding is fine
 import time
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import HelpOnErrorParser, get_clients, _clamp_score
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import openai
+from common import HelpOnErrorParser, _clamp_score, get_clients
 
 
 def verify_deployment(client, model):
@@ -172,14 +172,14 @@ def main():
     if not verify_deployment(client, args.teacher):
         print(f"  ERROR: Deployment '{args.teacher}' not found. Available deployments can be listed in Azure Portal.")
         sys.exit(1)
-    print(f"  ✅ Teacher deployment verified.")
+    print("  ✅ Teacher deployment verified.")
 
     if judge != args.teacher:
         print(f"Verifying judge deployment '{judge}'...")
         if not verify_deployment(client, judge):
             print(f"  ERROR: Judge deployment '{judge}' not found.")
             sys.exit(1)
-        print(f"  ✅ Judge deployment verified.")
+        print("  ✅ Judge deployment verified.")
 
     # Step 1: Generate or load prompts
     if args.prompts_file:

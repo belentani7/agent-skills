@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Print a compact, deterministic health report for secure-t repositories."""
-from pathlib import Path
 import json
 import sys
+from pathlib import Path
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
 print(f"root={root}")

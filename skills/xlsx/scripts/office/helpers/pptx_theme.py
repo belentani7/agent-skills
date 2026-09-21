@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import posixpath
 import re
-from typing import Mapping
+from collections.abc import Mapping
 
 from . import part_text
 

@@ -29,7 +29,6 @@ from office.helpers import SLIDE_REL_TYPE, opc_target
 from office.soffice import run_soffice
 from PIL import Image, ImageDraw, ImageFont
 
-
 THUMBNAIL_WIDTH = 300
 CONVERSION_DPI = 100
 MAX_COLS = 6

@@ -11,12 +11,16 @@ Uso:
   python commander.py --mode compare --prompt "explica X" --providers groq,zai,morph
   python commander.py --mode split --tasks '[{"id":"t1","prompt":"..."}]'
 """
-import argparse, json, re, sys, time
+import argparse
+import json
+import re
+import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-import providers as P  # noqa: E402
+import providers as P
 
 KIND_PATTERNS = [
     ("judge",    r"\b(audita|auditoria|security|seguridad|vulnerabilidad|pentest|revisa critico)\b"),

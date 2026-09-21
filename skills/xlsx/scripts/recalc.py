@@ -17,7 +17,6 @@ import zipfile
 from pathlib import Path
 
 from office.soffice import get_soffice_env, run_soffice
-
 from openpyxl import load_workbook
 
 MACRO_FILENAME = "Module1.xba"

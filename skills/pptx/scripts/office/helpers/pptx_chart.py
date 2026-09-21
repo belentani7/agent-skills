@@ -8,10 +8,9 @@ author knows which was meant.
 from __future__ import annotations
 
 import re
-from typing import Mapping
+from collections.abc import Mapping
 
 from . import part_text
-
 
 _CHART_PART_RE = re.compile(r"ppt/charts/chart\d+\.xml")
 

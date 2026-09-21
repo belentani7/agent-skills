@@ -30,12 +30,13 @@ import tempfile
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
-
-import defusedxml.minidom
 from xml.parsers.expat import ExpatError
 from xml.sax.saxutils import escape as xml_escape
 
-from office.helpers import opc_target, rezip as _rezip, safe_extract as _safe_extract
+import defusedxml.minidom
+from office.helpers import opc_target
+from office.helpers import rezip as _rezip
+from office.helpers import safe_extract as _safe_extract
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 NS = {

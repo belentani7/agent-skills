@@ -3,12 +3,13 @@
 con modelos gratis, y sintetiza un plan maestro con DeepSeek Pro (maximo razonamiento).
 Escribe reports/ORGANIZACION-MAESTRA.md
 """
-import json, os, subprocess, sys, time
-from pathlib import Path
+import subprocess
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-import orchestrator as O  # noqa: E402
+import orchestrator as O
 
 ROOTS = [Path.home(), Path.home() / "belentani-repos-master", Path.home() / "Documents", Path.home() / "Desktop", Path.home() / "repos"]
 SKIP = {"node_modules", "AppData", ".git", "dist", "build", ".next"}

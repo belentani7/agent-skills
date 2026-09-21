@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Sondea cada llave distinta: estado, saldo y modelos gratis disponibles AHORA.
 Escribe ~/.config/opencode/commander/catalog.json (sin secretos)."""
-import os, json, pathlib, urllib.request, urllib.error
+import json
+import os
+import pathlib
+import urllib.error
+import urllib.request
 
 OUT = pathlib.Path.home() / ".config" / "opencode" / "commander" / "catalog.json"
 UA = {"User-Agent": "Mozilla/5.0 commander/1.0", "Accept": "application/json"}

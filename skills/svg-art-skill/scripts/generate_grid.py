@@ -17,7 +17,6 @@ Examples:
 
 import argparse
 import math
-import sys
 
 
 def seeded_random(seed: int) -> float:

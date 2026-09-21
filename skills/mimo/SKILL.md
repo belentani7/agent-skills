@@ -1,7 +1,8 @@
 ---
 name: mimo
 description: "Code manipulation and AI-assisted development. Optimized for token efficiency."
----\r\n\r\n# Mimo - Token Efficient Development Assistant
+---
+# Mimo - Token Efficient Development Assistant
 
 Mimo is a code manipulation and AI-assisted development tool that provides efficient code generation, editing, and refactoring capabilities with minimal token overhead.
 

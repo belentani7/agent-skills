@@ -1,7 +1,8 @@
 ---
 name: kilo
 description: "Delegate coding to Kilo CLI (features, PRs). Optimized for token efficiency."
----\r\n\r\n# Kilo CLI Coding Assistant - Token Efficient
+---
+# Kilo CLI Coding Assistant - Token Efficient
 
 Use when you need to delegate coding tasks to Kilo CLI, an autonomous AI coding assistant that works in the terminal. Provides step-by-step guidance for setup, configuration, and usage with minimal token overhead.
 

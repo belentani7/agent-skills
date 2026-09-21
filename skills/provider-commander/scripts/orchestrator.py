@@ -18,11 +18,19 @@ Uso:
   python orchestrator.py --compare "prompt" --providers groq,zai,openrouter
 """
 from __future__ import annotations
-import argparse, json, os, re, sys, time, threading
+
+import argparse
+import json
+import os
+import re
+import sys
+import threading
+import time
+import urllib.error
+import urllib.request
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-import urllib.request, urllib.error
 
 HERE = Path(__file__).parent
 REG = json.loads((HERE / "registry.json").read_text(encoding="utf-8"))

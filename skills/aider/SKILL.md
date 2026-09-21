@@ -1,7 +1,8 @@
 ---
 name: aider
 description: "Delegate coding to Aider (code editor AI pair programming). Optimized for token efficiency."
----\r\n\r\n# Aider - Token Efficient Configuration
+---
+# Aider - Token Efficient Configuration
 
 Delegate coding tasks to Aider, the AI pair programmer that works in your editor/terminal with minimal token overhead.
 

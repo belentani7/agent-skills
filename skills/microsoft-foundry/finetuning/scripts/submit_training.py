@@ -30,16 +30,14 @@ import json
 import os
 import sys
 
-
 try:
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 except (AttributeError, OSError):
     pass  # Stream not reconfigurable (older Python or non-tty); default encoding is fine
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import HelpOnErrorParser, get_clients, upload_file
-
 import requests
+from common import HelpOnErrorParser, get_clients, upload_file
 
 
 def submit_sft_sdk(client, model, train_id, val_id, epochs=2, lr=1.0, batch_size=None, suffix=None, training_type="globalStandard"):
@@ -249,7 +247,7 @@ def main():
             else:
                 raise
 
-    print(f"\nJob submitted successfully:")
+    print("\nJob submitted successfully:")
     print(json.dumps(result, indent=2))
 
     # Save job info

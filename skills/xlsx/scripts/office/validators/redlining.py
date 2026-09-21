@@ -18,7 +18,6 @@ from pathlib import Path
 
 import defusedxml.ElementTree as ET
 from defusedxml.common import DefusedXmlException
-
 from helpers import rendered_text, safe_extract
 
 

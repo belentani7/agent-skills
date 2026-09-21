@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Ingesta las llaves de ~/.local/share/opencode/auth.json a secrets.local.json.
 Valida cada una. Nunca imprime valores completos."""
-import json, os, urllib.request, urllib.error, hashlib
+import hashlib
+import json
+import os
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 AUTH = Path(os.path.expanduser("~/.local/share/opencode/auth.json"))

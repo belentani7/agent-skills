@@ -14,7 +14,6 @@ Uso:
 """
 
 import csv
-import os
 import re
 import secrets
 import shutil

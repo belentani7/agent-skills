@@ -10,7 +10,6 @@ from pathlib import Path
 
 import defusedxml.minidom
 import lxml.etree
-
 from helpers import safe_extract
 
 from .base import BaseSchemaValidator

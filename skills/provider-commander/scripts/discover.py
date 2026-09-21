@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Descubrimiento estatico de llaves en un repo/carpeta. NO imprime valores completos.
 Uso: python discover.py --path C:\\ruta\\repo [--out inventory.json]"""
-import argparse, hashlib, json, re
+import argparse
+import hashlib
+import json
+import re
 from pathlib import Path
 
 PATTERNS = [
