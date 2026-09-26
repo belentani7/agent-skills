@@ -1,3 +1,5 @@
+[![Open in VS Code](https://img.shields.io/badge/Open_in-VS_Code-007ACC?logo=visualstudiocode&logoColor=white)](https://github.dev/belentani7/agent-skills)
+
 # Agent Skills
 
 Colección curada de **311 skills** para agentes CLI (Claude Code, OpenCode, Codex, Cline, Qwen Code, Gemini CLI, ZCode).
